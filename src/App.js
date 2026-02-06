@@ -9,36 +9,38 @@ function App() {
   const [addresses, setAddresses] = useState([]);
   const [collections, setCollections] = useState([]);
   const [error, setError] = useState(false);
+  const [hasSelected, setHasSelected] = useState(false);
 
-  // Triggered by PostcodeForm to find properties
   const onSearch = async (postcode) => {
     setError(false);
+    setHasSelected(false);
     const data = await getAddresses(postcode);
     setAddresses(data.ADDRESS || []);
     setCollections([]);
   };
 
-  // Triggered by AddressSelect to get bin dates using UPRN
   const onSelectAddress = async (uprn) => {
     if (!uprn) return;
     const data = await getCollections(uprn);
-    setCollections(data);
-    setError(data.length === 0);
+    const results = data || [];
+    setCollections(results);
+    setHasSelected(true);
+    setError(results.length === 0);
   };
 
   const resetAll = () => {
     setAddresses([]);
     setCollections([]);
     setError(false);
+    setHasSelected(false);
   };
 
   return (
     <div className="container">
-      <h1>Find out your waste collection day</h1>
-      
       <div className="main-layout">
-        <div className="main-content">
-          <p>Check when your waste will be collected.</p>
+        <main className="main-content">
+          <h1>Find out your waste collection day</h1>
+          <p className="intro-text">Check when your waste will be collected.</p>
           
           <div className="search-box">
             <PostcodeForm onSearch={onSearch} />
@@ -52,21 +54,38 @@ function App() {
             )}
           </div>
 
-          {error && (
-            <div className="error-banner">
-              <strong>!</strong> There are no upcoming collections scheduled for the above address.
+          {error && hasSelected && (
+            <div className="status-message">
+              <div className="status-icon">!</div>
+              <p>There are no upcoming collections scheduled for the above address.</p>
             </div>
           )}
 
-          <ResultCards collections={collections} />
-        </div>
+          {collections.length > 0 && (
+            <div className="results-container">
+              <h3 className="results-heading">Your next collections</h3>
+              <ResultCards collections={collections} />
+            </div>
+          )}
+        </main>
 
         <aside className="sidebar">
+          <div className="sidebar-border"></div>
           <h3>Related content</h3>
-          <a href="#!">Add to your calendar</a>
-          <a href="#!">View and download printable schedule</a>
+          <ul>
+            <li><a href="#!">Add to your calendar</a></li>
+            <li><a href="#!">View and download printable schedule</a></li>
+          </ul>
         </aside>
       </div>
+
+      <footer className="footer-nav">
+        <a href="#help">Help</a>
+        <a href="#cookies">Cookies</a>
+        <a href="#contact">Contact</a>
+        <a href="#accessibility">Accessibility Statement</a>
+        <a href="#privacy">Privacy Policy</a>
+      </footer>
     </div>
   );
 }
