@@ -85,3 +85,33 @@ body {
 @media (max-width: 768px) {
   .main-layout { grid-template-columns: 1fr; }
 }
+/* Results Grid - This makes it 2 columns like the target image */
+.results-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* Creates two equal columns */
+  gap: 15px;
+  margin-top: 20px;
+}
+
+/* Card Styling */
+.card {
+  padding: 20px;
+  min-height: 220px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  /* Ensuring text doesn't have default browser margins */
+}
+
+.card h2 {
+  font-family: Arial, sans-serif;
+  font-weight: bold;
+  line-height: 1.2;
+}
+
+/* Responsive fix: stack on mobile */
+@media (max-width: 600px) {
+  .results-grid {
+    grid-template-columns: 1fr;
+  }
+}
