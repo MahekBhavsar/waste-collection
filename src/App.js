@@ -1,43 +1,80 @@
 import React, { useState } from "react";
 import "./styles.css";
+import PostcodeForm from "./PostcodeForm";
+import AddressSelect from "./AddressSelect";
+import ResultCards from "./ResultCards";
+import { getAddresses, getCollections } from "./apiService";
 
 function App() {
   const [addresses, setAddresses] = useState([]);
   const [collections, setCollections] = useState([]);
+  const [hasSearched, setHasSearched] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  const handleSearch = async (postcode) => {
+    setLoading(true);
+    const data = await getAddresses(postcode);
+    setAddresses(data.addressList || []); // Adjust based on actual API key
+    setCollections([]);
+    setHasSearched(false);
+    setLoading(false);
+  };
+
+  const handleSelect = async (uprn) => {
+    const data = await getCollections(uprn);
+    setCollections(data);
+    setHasSearched(true);
+  };
+
+  const handleClear = () => {
+    setAddresses([]);
+    setCollections([]);
+    setHasSearched(false);
+  };
 
   return (
     <div className="container">
-      {/* Main Content Area */}
-      <main>
-        <h1 style={{ fontSize: '2.5rem', marginBottom: '10px' }}>Find out your waste collection day</h1>
-        <p>Check when your waste will be collected.</p>
+      <main className="main-content">
+        <h1>Find out your waste collection day</h1>
+        <p className="intro-text">Check when your waste will be collected.</p>
 
         <div className="search-section">
           <PostcodeForm onSearch={handleSearch} />
+          
           {addresses.length > 0 && (
-            <AddressSelect addresses={addresses} onSelect={handleSelect} />
+            <AddressSelect 
+              addresses={addresses} 
+              onSelect={handleSelect} 
+              onClear={handleClear} 
+            />
           )}
         </div>
 
+        {/* The "No collections" message from your first image */}
+        {hasSearched && collections.length === 0 && (
+          <div className="status-message">
+            <span className="icon">!</span>
+            <p>There are no upcoming collections scheduled for the above address.</p>
+          </div>
+        )}
+
         {collections.length > 0 && (
           <>
-            <h3 style={{ marginTop: '30px' }}>Your next collections</h3>
+            <h3 className="results-heading">Your next collections</h3>
             <ResultCards collections={collections} />
           </>
         )}
       </main>
 
-      {/* Sidebar - Related Content */}
       <aside className="sidebar">
         <h3>Related content</h3>
         <ul>
-          <li><a href="#calendar">Add to your calendar</a></li>
-          <li><a href="#print">View and download printable schedule</a></li>
+          <li><a href="#">Add to your calendar</a></li>
+          <li><a href="#">View and download printable schedule</a></li>
         </ul>
       </aside>
 
-      {/* Footer Navigation */}
-      <footer >
+      <footer className="footer-nav">
         <a href="#help">Help</a>
         <a href="#cookies">Cookies</a>
         <a href="#contact">Contact</a>
@@ -47,3 +84,5 @@ function App() {
     </div>
   );
 }
+
+export default App;
