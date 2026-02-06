@@ -1,94 +1,65 @@
 import React, { useState } from "react";
-import { getAddresses, getCollections } from "./api";
-import PostcodeForm from "./components/PostcodeForm";
-import AddressSelect from "./components/AddressSelect";
-import ResultCards from "./components/ResultCards";
 import "./styles.css";
 
 function App() {
-  const [addresses, setAddresses] = useState([]);
-  const [collections, setCollections] = useState([]);
-  const [error, setError] = useState(false);
-  const [hasSelected, setHasSelected] = useState(false);
-
-  const onSearch = async (postcode) => {
-    setError(false);
-    setHasSelected(false);
-    const data = await getAddresses(postcode);
-    // Use the correct key based on your API response structure
-    setAddresses(data.ADDRESS || data.addressList || []); 
-    setCollections([]);
-  };
-
-  const onSelectAddress = async (uprn) => {
-    if (!uprn) return;
-    const data = await getCollections(uprn);
-    const results = data || [];
-    setCollections(results);
-    setHasSelected(true);
-    setError(results.length === 0);
-  };
-
-  const resetAll = () => {
-    setAddresses([]);
-    setCollections([]);
-    setError(false);
-    setHasSelected(false);
-  };
+  // ... (your existing state and logic)
 
   return (
-    <div className="container">
-      <div className="main-layout">
-        <main className="main-content">
-          <h1 className="gov-h1">Find out your waste collection day</h1>
-          <p className="intro-text">Check when your waste will be collected.</p>
-          
-          <div className="search-box">
-            <PostcodeForm onSearch={onSearch} />
-            
+    <div className="gov-container">
+      <div className="gov-grid-row">
+        {/* Main Content Area */}
+        <main className="gov-column-two-thirds">
+          <h1 className="gov-heading-xl">Find out your waste collection day</h1>
+          <p className="gov-body-l">Check when your waste will be collected.</p>
+
+          <div className="gov-search-panel">
+            <PostcodeForm onSearch={handleSearch} />
             {addresses.length > 0 && (
               <AddressSelect 
                 addresses={addresses} 
-                onSelect={onSelectAddress} 
-                onClear={resetAll} 
+                onSelect={handleSelect} 
+                onClear={handleClear} 
               />
             )}
           </div>
 
-          {error && hasSelected && (
-            <div className="status-message">
-              <div className="status-icon">!</div>
-              <p>There are no upcoming collections scheduled for the above address.</p>
+          {hasSearched && collections.length === 0 && (
+            <div className="gov-warning-text">
+              <span className="gov-warning-icon">!</span>
+              <strong className="gov-warning-text__text">
+                There are no upcoming collections scheduled for the above address.
+              </strong>
             </div>
           )}
 
           {collections.length > 0 && (
-            <div className="results-container">
-              <h3 className="results-heading">Your next collections</h3>
+            <div className="gov-results-section">
+              <h2 className="gov-heading-m">Your next collections</h2>
               <ResultCards collections={collections} />
             </div>
           )}
         </main>
 
-        <aside className="sidebar">
-          <div className="sidebar-border"></div>
-          <h3>Related content</h3>
-          <ul>
-            <li><a href="#!">Add to your calendar</a></li>
-            <li><a href="#!">View and download printable schedule</a></li>
+        {/* Sidebar */}
+        <aside className="gov-column-one-third">
+          <div className="gov-sidebar-border"></div>
+          <h3 className="gov-heading-s">Related content</h3>
+          <ul className="gov-list">
+            <li><a href="#calendar" className="gov-link">Add to your calendar</a></li>
+            <li><a href="#print" className="gov-link">View and download printable schedule</a></li>
           </ul>
         </aside>
       </div>
 
-      <footer className="footer-nav">
-        <a href="#help">Help</a>
-        <a href="#cookies">Cookies</a>
-        <a href="#contact">Contact</a>
-        <a href="#accessibility">Accessibility Statement</a>
-        <a href="#privacy">Privacy Policy</a>
+      <footer className="gov-footer">
+        <div className="gov-footer-links">
+          <a href="#help">Help</a>
+          <a href="#cookies">Cookies</a>
+          <a href="#contact">Contact</a>
+          <a href="#accessibility">Accessibility Statement</a>
+          <a href="#privacy">Privacy Policy</a>
+        </div>
       </footer>
     </div>
   );
 }
-
-export default App;
