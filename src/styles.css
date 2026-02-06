@@ -1,35 +1,24 @@
-/* Layout for the 2x2 grid */
 .results-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(2, 1fr); /* 2 cards per row */
   gap: 15px;
-  margin-top: 20px;
-  max-width: 800px;
+  padding: 10px;
 }
 
-/* Base card styling */
-.bin-card {
-  padding: 20px;
+.card {
+  padding: 24px;
   min-height: 220px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  color: white;
+  justify-content: space-between; /* This pushes the "followed by" to the bottom */
   font-family: Arial, sans-serif;
 }
 
-.bin-label { font-size: 14px; margin: 0; }
-.bin-date { font-size: 24px; margin: 10px 0; font-weight: bold; }
-.bin-followup { font-size: 13px; margin-top: 30px; opacity: 0.9; }
-.bin-footer { font-size: 12px; margin-top: 10px; opacity: 0.8; }
-
-/* Exact Colors from the Image */
-.bin-green { background-color: #4ead00; }  /* Garden */
-.bin-orange { background-color: #f4821f; } /* Recycling */
-.bin-black { background-color: #000000; }  /* Domestic */
-.bin-yellow { background-color: #eeee00; color: #000 !important; } /* Sharps */
-.bin-default { background-color: #6f777b; }
+.type-label { font-size: 14px; margin: 0; text-transform: lowercase; }
+.date-main { font-size: 28px; font-weight: bold; margin-top: 10px; }
+.date-sub { font-size: 14px; opacity: 0.9; }
+.footer-label { font-size: 12px; opacity: 0.7; margin-top: 5px; text-transform: lowercase; }
 
 @media (max-width: 600px) {
-  .results-grid { grid-template-columns: 1fr; }
+  .results-grid { grid-template-columns: 1fr; } /* Stack on mobile */
 }

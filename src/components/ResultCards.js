@@ -1,52 +1,38 @@
 import React from "react";
 
 export default function ResultCards({ collections }) {
-  if (!collections || collections.length === 0) return null;
+  // Check if data exists at all
+  if (!collections || collections.length === 0) {
+    return (
+      <div style={{ padding: "20px", color: "#666" }}>
+        No collections found for this address.
+      </div>
+    );
+  }
 
-  // Helper function to turn a bin type into a real CSS color
-  const getColor = (type) => {
-    if (!type) return "#6f777b"; // Default Gray
-    const name = type.toLowerCase();
-    if (name.includes("garden")) return "#4ead00";   // Green
-    if (name.includes("recycling")) return "#f4821f"; // Orange
-    if (name.includes("domestic") || name.includes("refuse")) return "#000000"; // Black
-    if (name.includes("sharps") || name.includes("medical")) return "#eeee00";  // Yellow
-    return "#6f777b"; // Fallback Gray
-  };
+  // LOG THE DATA: Open your browser console (F12) to see this!
+  console.log("Data received in ResultCards:", collections);
 
   return (
     <div className="results-grid">
       {collections.map((item, i) => {
-        // Use item.binColor if it exists, otherwise calculate it from binType
-        const cardColor = item.binColor || getColor(item.binType || item.serviceName);
-        
-        // Ensure we have text even if keys are slightly different
-        const displayType = item.binType || item.serviceName || "Waste";
-        const day = item.collectionDay || item.nextCollectionDate || "TBC";
-        const nextDay = item.followingDay || "Next Scheduled";
+        // Fallback logic in case the API uses different names
+        const type = item.binType || item.serviceName || "Waste";
+        const color = item.binColor || "#6f777b"; // Gray if color is missing
+        const day = item.collectionDay || item.nextCollectionDate || "Unknown Date";
+        const following = item.followingDay || "Not available";
 
         return (
-          <div 
-            key={i} 
-            className="card" 
-            style={{ 
-              backgroundColor: cardColor,
-              color: cardColor === "#eeee00" ? "#000" : "#fff", // Black text on yellow
-              padding: "20px",
-              marginBottom: "10px",
-              borderRadius: "4px"
-            }}
-          >
-            <p className="type-label">{displayType} collection</p>
-            <div className="date-main" style={{ fontSize: "24px", fontWeight: "bold" }}>
-              {day}
+          <div key={i} className="card" style={{ backgroundColor: color }}>
+            <div className="top-section">
+              <p className="type-label">{type} collection</p>
+              <div className="date-main">{day}</div>
             </div>
-            <div className="date-sub" style={{ marginTop: "20px", opacity: 0.9 }}>
-              followed by {nextDay}
+
+            <div className="bottom-section">
+              <div className="date-sub">followed by {following}</div>
+              <p className="footer-label">{type} collection</p>
             </div>
-            <p className="footer-label" style={{ fontSize: "12px", marginTop: "10px" }}>
-              {displayType} collection
-            </p>
           </div>
         );
       })}
