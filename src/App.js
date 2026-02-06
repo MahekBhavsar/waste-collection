@@ -37,7 +37,7 @@ function App() {
       </aside>
 
       {/* Footer Navigation */}
-      <footer className="footer-nav">
+      <footer >
         <a href="#help">Help</a>
         <a href="#cookies">Cookies</a>
         <a href="#contact">Contact</a>
