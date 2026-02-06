@@ -1,31 +1,20 @@
-/* Styling for the individual collection blocks */
+.container { max-width: 600px; margin: 40px auto; font-family: Arial, sans-serif; }
+.search-box { background: #f3f2f1; padding: 20px; border-radius: 4px; margin-bottom: 20px; }
+
+/* Block Styling */
 .bin-card {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 20px;
-  margin: 15px 0;
-  border-radius: 6px;
-  color: #ffffff; /* Contrast text */
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  margin-bottom: 15px;
+  border-radius: 5px;
+  color: white;
 }
 
-/* Color definitions */
-.bin-blue { 
-  background-color: #005ea5; 
-  border-left: 12px solid #003a66; 
-} /* Recycling */
+.bin-blue { background-color: #005ea5; border-left: 10px solid #003a66; }
+.bin-green { background-color: #00703c; border-left: 10px solid #004d2a; }
+.bin-black { background-color: #333333; border-left: 10px solid #000000; }
+.bin-default { background-color: #6f777b; }
 
-.bin-green { 
-  background-color: #00703c; 
-  border-left: 12px solid #004d2a; 
-} /* Garden Waste */
-
-.bin-black { 
-  background-color: #333333; 
-  border-left: 12px solid #000000; 
-} /* Refuse/General Waste */
-
-.bin-default { 
-  background-color: #6f777b; 
-}
+.loading-text { color: #005ea5; font-weight: bold; }

@@ -12,16 +12,27 @@ function App() {
 
   const onSearch = async (postcode) => {
     setLoading(true);
-    const data = await getAddresses(postcode);
-    setAddresses(data.ADDRESS || []);
-    setCollections([]);
-    setLoading(false);
+    try {
+      const data = await getAddresses(postcode);
+      setAddresses(data.ADDRESS || []);
+      setCollections([]);
+    } catch (err) {
+      console.error("Search failed", err);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const onSelectAddress = async (uprn) => {
     if (!uprn) return;
-    const data = await getCollections(uprn);
-    setCollections(data);
+    try {
+      const data = await getCollections(uprn);
+      // Ensure we always set an array to avoid mapping errors
+      setCollections(Array.isArray(data) ? data : []);
+    } catch (err) {
+      console.error("Collection fetch failed", err);
+      setCollections([]);
+    }
   };
 
   return (
@@ -29,7 +40,7 @@ function App() {
       <h1>Waste Collection Finder</h1>
       <div className="search-box">
         <PostcodeForm onSearch={onSearch} />
-        {loading && <p>Searching...</p>}
+        {loading && <p className="loading-text">Searching for addresses...</p>}
         {addresses.length > 0 && (
           <AddressSelect 
             addresses={addresses} 
@@ -38,7 +49,8 @@ function App() {
           />
         )}
       </div>
-      <ResultCards collections={collections} />
+      {/* Only show cards if there is data to prevent blank screen errors */}
+      {collections.length > 0 && <ResultCards collections={collections} />}
     </div>
   );
 }
