@@ -1,0 +1,11 @@
+.container { max-width: 800px; margin: 40px auto; padding: 20px; font-family: 'Segoe UI', sans-serif; }
+.search-box { background: #f3f2f1; padding: 20px; border-radius: 4px; border-bottom: 4px solid #005ea5; }
+
+/* The Bin Cards Colour Coding */
+.bin-card { padding: 20px; margin: 15px 0; border-radius: 4px; color: white; display: flex; justify-content: space-between; align-items: center; }
+.bin-blue { background: #005ea5; border-left: 10px solid #003a66; } /* Recycling */
+.bin-green { background: #00703c; border-left: 10px solid #004d2a; } /* Garden */
+.bin-black { background: #333333; border-left: 10px solid #000000; } /* Refuse */
+
+button { background: #00703c; color: white; padding: 10px 20px; border: none; cursor: pointer; font-weight: bold; }
+button:hover { background: #005a30; }
