@@ -10,28 +10,28 @@ function App() {
   const [collections, setCollections] = useState([]);
   const [noSchedule, setNoSchedule] = useState(false);
 
-  // Search postcode → fetch addresses
+  // 🔹 POSTCODE SEARCH
   const handleSearch = async (postcode) => {
     setAddresses([]);
     setCollections([]);
     setNoSchedule(false);
 
     try {
-      const data = await getAddresses(postcode);
+      const res = await getAddresses(postcode);
 
-      // API returns array of addresses
-      if (Array.isArray(data) && data.length > 0) {
-        setAddresses(data);
+      // ✅ REAL RESPONSE HANDLING
+      if (res?.address && Array.isArray(res.address)) {
+        setAddresses(res.address);
       } else {
         setAddresses([]);
       }
-    } catch (err) {
-      console.error("Address lookup failed", err);
+    } catch (e) {
+      console.error(e);
       setAddresses([]);
     }
   };
 
-  // Select address → fetch collections
+  // 🔹 ADDRESS SELECT
   const handleSelect = async (uprn) => {
     setCollections([]);
     setNoSchedule(false);
@@ -39,14 +39,15 @@ function App() {
     try {
       const data = await getCollections(uprn);
 
+      // ✅ data IS ALREADY AN ARRAY (from backend)
       if (!Array.isArray(data) || data.length === 0) {
         setNoSchedule(true);
         return;
       }
 
       setCollections(data);
-    } catch (err) {
-      console.error("Collection lookup failed", err);
+    } catch (e) {
+      console.error(e);
       setNoSchedule(true);
     }
   };
@@ -71,7 +72,7 @@ function App() {
             )}
           </div>
 
-          {/* ✅ NO SCHEDULE MESSAGE */}
+          {/* ✅ NO SCHEDULE MESSAGE (NOW WORKS) */}
           {noSchedule && (
             <p style={{ marginTop: "20px", fontWeight: "bold" }}>
               There are no upcoming collections scheduled for the above address.
@@ -95,6 +96,7 @@ function App() {
         </aside>
       </div>
 
+      {/* ✅ FOOTER NOW ALWAYS VISIBLE */}
       <footer className="footer-nav">
         <a href="#help">Help</a>
         <a href="#cookies">Cookies</a>
