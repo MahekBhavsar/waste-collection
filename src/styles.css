@@ -1,20 +1,43 @@
-.container { max-width: 600px; margin: 40px auto; font-family: Arial, sans-serif; }
-.search-box { background: #f3f2f1; padding: 20px; border-radius: 4px; margin-bottom: 20px; }
-
-/* Block Styling */
-.bin-card {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 20px;
-  margin-bottom: 15px;
-  border-radius: 5px;
-  color: white;
+/* Grid Layout */
+.results-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+  margin-top: 20px;
 }
 
-.bin-blue { background-color: #005ea5; border-left: 10px solid #003a66; }
-.bin-green { background-color: #00703c; border-left: 10px solid #004d2a; }
-.bin-black { background-color: #333333; border-left: 10px solid #000000; }
+/* Base Card Styling */
+.bin-card {
+  padding: 15px;
+  min-height: 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  color: white;
+  font-family: Arial, sans-serif;
+}
+
+.bin-body h2 {
+  margin: 10px 0;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.follow-up {
+  font-size: 0.8rem;
+  opacity: 0.9;
+}
+
+/* Color Palette Matching your Image */
+.bin-green { background-color: #4ead00; }  /* Garden */
+.bin-orange { background-color: #f4821f; } /* Recycling */
+.bin-black { background-color: #000000; }  /* Domestic */
+.bin-yellow { background-color: #eeee00; color: #333; } /* Sharps/Medical */
 .bin-default { background-color: #6f777b; }
 
-.loading-text { color: #005ea5; font-weight: bold; }
+/* Mobile Responsive */
+@media (max-width: 600px) {
+  .results-grid {
+    grid-template-columns: 1fr;
+  }
+}
