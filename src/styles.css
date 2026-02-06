@@ -22,7 +22,7 @@ h1 {
 
 .main-layout {
   display: grid;
-  grid-template-columns: 2fr 1fr;
+  grid-template-columns: 2fr 1fr; /* This creates the split view */
   gap: 60px;
 }
 
@@ -31,19 +31,19 @@ h1 {
   margin-bottom: 20px;
 }
 
-/* The Gray Background Box */
+/* The Gray Background Box from your requirement */
 .search-box {
   background-color: #f3f3f3;
   padding: 30px;
   margin-bottom: 30px;
 }
 
-/* Error/Status Message styling */
+/* Status Message (!) */
 .status-message {
   display: flex;
   align-items: center;
   gap: 15px;
-  margin-top: 30px;
+  margin: 30px 0;
 }
 
 .status-icon {
@@ -66,13 +66,13 @@ h1 {
   margin: 0;
 }
 
-/* Sidebar styling */
+/* Sidebar Styling */
 .sidebar {
   padding-top: 15px;
 }
 
 .sidebar-border {
-  border-top: 4px solid #005ea5;
+  border-top: 4px solid #005ea5; /* The blue line */
   width: 100%;
   margin-bottom: 15px;
 }
@@ -95,13 +95,7 @@ h1 {
   font-size: 16px;
 }
 
-/* Results Section */
-.results-heading {
-  font-size: 24px;
-  margin-bottom: 20px;
-}
-
-/* Footer styling */
+/* Footer */
 .footer-nav {
   margin-top: 60px;
   padding-top: 20px;
