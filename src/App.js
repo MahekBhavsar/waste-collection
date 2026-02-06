@@ -14,8 +14,8 @@ function App() {
   const onSearch = async (postcode) => {
     setError(false);
     setHasSelected(false);
-    // Make sure your api.js returns data.ADDRESS or update this to match your API
     const data = await getAddresses(postcode);
+    // Use the correct key based on your API response structure
     setAddresses(data.ADDRESS || data.addressList || []); 
     setCollections([]);
   };
@@ -38,9 +38,9 @@ function App() {
 
   return (
     <div className="container">
-      <main className="main-layout">
-        <div className="main-content">
-          <h1>Find out your waste collection day</h1>
+      <div className="main-layout">
+        <main className="main-content">
+          <h1 className="gov-h1">Find out your waste collection day</h1>
           <p className="intro-text">Check when your waste will be collected.</p>
           
           <div className="search-box">
@@ -55,7 +55,6 @@ function App() {
             )}
           </div>
 
-          {/* The "No Schedule" message you wanted */}
           {error && hasSelected && (
             <div className="status-message">
               <div className="status-icon">!</div>
@@ -69,7 +68,7 @@ function App() {
               <ResultCards collections={collections} />
             </div>
           )}
-        </div>
+        </main>
 
         <aside className="sidebar">
           <div className="sidebar-border"></div>
@@ -79,7 +78,7 @@ function App() {
             <li><a href="#!">View and download printable schedule</a></li>
           </ul>
         </aside>
-      </main>
+      </div>
 
       <footer className="footer-nav">
         <a href="#help">Help</a>

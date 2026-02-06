@@ -2,9 +2,9 @@
 
 body {
   margin: 0;
-  font-family: Arial, sans-serif;
-  color: #0b0c0c;
-  line-height: 1.5;
+  font-family: "GDS Transport", Arial, sans-serif !important;
+  color: #0b0c0c !important;
+  background-color: #ffffff !important;
 }
 
 .container {
@@ -13,29 +13,26 @@ body {
   padding: 40px 20px;
 }
 
-h1 {
-  font-size: 48px;
-  font-weight: 700;
-  margin-top: 0;
-  margin-bottom: 30px;
+/* Bold Title Styling */
+.gov-h1 {
+  font-size: 48px !important;
+  font-weight: 700 !important;
+  margin-bottom: 30px !important;
+  display: block;
 }
 
 .main-layout {
   display: grid;
-  grid-template-columns: 2fr 1fr; /* This creates the split view */
+  grid-template-columns: 2fr 1fr;
   gap: 60px;
 }
 
-.intro-text {
-  font-size: 19px;
-  margin-bottom: 20px;
-}
-
-/* The Gray Background Box from your requirement */
+/* Gray Box Styling */
 .search-box {
-  background-color: #f3f3f3;
-  padding: 30px;
+  background-color: #f3f3f3 !important;
+  padding: 30px !important;
   margin-bottom: 30px;
+  border: none;
 }
 
 /* Status Message (!) */
@@ -47,8 +44,8 @@ h1 {
 }
 
 .status-icon {
-  background-color: #000;
-  color: #fff;
+  background-color: #000 !important;
+  color: #fff !important;
   width: 35px;
   height: 35px;
   border-radius: 50%;
@@ -57,7 +54,6 @@ h1 {
   justify-content: center;
   font-size: 24px;
   font-weight: bold;
-  flex-shrink: 0;
 }
 
 .status-message p {
@@ -66,34 +62,16 @@ h1 {
   margin: 0;
 }
 
-/* Sidebar Styling */
-.sidebar {
-  padding-top: 15px;
-}
-
+/* Sidebar with Blue Line */
 .sidebar-border {
-  border-top: 4px solid #005ea5; /* The blue line */
+  border-top: 4px solid #005ea5 !important;
   width: 100%;
   margin-bottom: 15px;
 }
 
-.sidebar h3 {
-  font-size: 24px;
-  margin-bottom: 20px;
-}
-
-.sidebar ul {
-  list-style: none;
-  padding: 0;
-}
-
-.sidebar li { margin-bottom: 15px; }
-
-.sidebar a {
-  color: #1d70b8;
-  text-decoration: underline;
-  font-size: 16px;
-}
+.sidebar h3 { font-size: 24px; }
+.sidebar ul { list-style: none; padding: 0; }
+.sidebar a { color: #1d70b8; text-decoration: underline; }
 
 /* Footer */
 .footer-nav {
@@ -104,13 +82,6 @@ h1 {
   gap: 20px;
 }
 
-.footer-nav a {
-  color: #1d70b8;
-  text-decoration: underline;
-  font-size: 14px;
-}
-
 @media (max-width: 768px) {
   .main-layout { grid-template-columns: 1fr; }
-  h1 { font-size: 32px; }
 }
