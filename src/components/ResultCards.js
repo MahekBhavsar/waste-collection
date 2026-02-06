@@ -1,6 +1,7 @@
 import React from "react";
 
 export default function ResultCards({ collections }) {
+  // Matches the exact colors from your reference image
   const getBinClass = (type) => {
     if (!type) return "bin-default";
     const name = type.toLowerCase();
@@ -15,15 +16,14 @@ export default function ResultCards({ collections }) {
     <div className="results-grid">
       {collections.map((item, index) => (
         <div key={index} className={`bin-card ${getBinClass(item.serviceName)}`}>
-          <div className="bin-header">
-            <span>{item.serviceName}</span>
+          <div className="card-top">
+            <p className="service-label">{item.serviceName}</p>
+            <h2 className="collection-date">{item.nextCollectionDate || "TBA"}</h2>
           </div>
-          <div className="bin-body">
-            <h2>{item.nextCollectionDate}</h2>
-            <p className="follow-up">followed by {item.nextCollectionDate}</p>
-          </div>
-          <div className="bin-footer">
-            <span>{item.serviceName}</span>
+          
+          <div className="card-bottom">
+            <p className="follow-up">followed by {item.nextCollectionDate || "next week"}</p>
+            <p className="footer-label">{item.serviceName}</p>
           </div>
         </div>
       ))}
