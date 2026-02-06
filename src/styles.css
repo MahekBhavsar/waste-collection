@@ -1,8 +1,65 @@
+/* Layout Containers */
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+.search-box {
+  background: #f3f3f3;
+  padding: 24px;
+  margin: 20px 0;
+}
+
+/* Form Styles */
+.form-group label, .address-select label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.example-text {
+  font-size: 0.8rem;
+  color: #666;
+  margin-bottom: 10px;
+}
+
+.input-row {
+  display: flex;
+  gap: 10px;
+}
+
+input[type="text"], select {
+  padding: 8px;
+  border: 1px solid #000;
+  width: 100%;
+  max-width: 300px;
+}
+
+.btn-search {
+  padding: 8px 15px;
+  background: #fff;
+  border: 1px solid #000;
+  cursor: pointer;
+}
+
+.btn-clear {
+  background: none;
+  border: none;
+  color: #005ea5;
+  text-decoration: underline;
+  cursor: pointer;
+  margin-top: 15px;
+  padding: 0;
+}
+
+/* Grid & Cards */
 .results-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr); /* 2 cards per row */
-  gap: 15px;
-  padding: 10px;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2px; /* Mimics the thin border look */
+  margin-top: 20px;
 }
 
 .card {
@@ -10,15 +67,16 @@
   min-height: 220px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between; /* This pushes the "followed by" to the bottom */
-  font-family: Arial, sans-serif;
+  justify-content: space-between;
+  color: #fff;
 }
 
-.type-label { font-size: 14px; margin: 0; text-transform: lowercase; }
-.date-main { font-size: 28px; font-weight: bold; margin-top: 10px; }
+.type-label { font-size: 14px; margin: 0; }
+.date-main { font-size: 28px; font-weight: bold; margin: 10px 0; }
 .date-sub { font-size: 14px; opacity: 0.9; }
-.footer-label { font-size: 12px; opacity: 0.7; margin-top: 5px; text-transform: lowercase; }
+.footer-label { font-size: 12px; opacity: 0.8; margin-top: 5px; }
 
+/* Mobile View */
 @media (max-width: 600px) {
-  .results-grid { grid-template-columns: 1fr; } /* Stack on mobile */
+  .results-grid { grid-template-columns: 1fr; }
 }
