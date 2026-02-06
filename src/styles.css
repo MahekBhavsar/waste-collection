@@ -2,9 +2,10 @@
 
 body {
   margin: 0;
-  font-family: "GDS Transport", Arial, sans-serif !important;
-  color: #0b0c0c !important;
-  background-color: #ffffff !important;
+  font-family: "GDS Transport", Arial, sans-serif;
+  color: #0b0c0c;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
 }
 
 .container {
@@ -13,12 +14,12 @@ body {
   padding: 40px 20px;
 }
 
-/* Bold Title Styling */
-.gov-h1 {
-  font-size: 48px !important;
-  font-weight: 700 !important;
-  margin-bottom: 30px !important;
-  display: block;
+/* Bold Heading Spacing */
+h1 {
+  font-size: 48px;
+  font-weight: 700;
+  margin: 0 0 30px 0;
+  line-height: 1.1;
 }
 
 .main-layout {
@@ -27,12 +28,99 @@ body {
   gap: 60px;
 }
 
-/* Gray Box Styling */
+/* Search Box Spacing */
 .search-box {
-  background-color: #f3f3f3 !important;
-  padding: 30px !important;
+  background-color: #f3f3f3;
+  padding: 35px;
   margin-bottom: 30px;
-  border: none;
+}
+
+.form-group label {
+  display: block;
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 5px;
+}
+
+.example-text {
+  font-size: 19px;
+  color: #505a5f;
+  margin: 0 0 15px 0;
+}
+
+/* Input and Button Row */
+.input-row {
+  display: flex;
+  gap: 0;
+  margin-bottom: 20px;
+}
+
+.gov-input {
+  font-size: 19px;
+  padding: 8px;
+  border: 2px solid #0b0c0c;
+  width: 100%;
+  max-width: 250px;
+}
+
+.btn-search {
+  font-size: 19px;
+  background-color: #f3f3f3;
+  border: 1px solid #0b0c0c;
+  padding: 8px 20px;
+  cursor: pointer;
+}
+
+/* Results Grid - 2x2 Layout */
+.results-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.card {
+  padding: 20px;
+  min-height: 230px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.collection-day {
+  font-size: 24px;
+  font-weight: 700;
+  margin: 10px 0;
+}
+
+/* Sidebar with Blue Line */
+.sidebar {
+  padding-top: 0;
+}
+
+.sidebar-border {
+  border-top: 4px solid #005ea5;
+  width: 100%;
+  margin-bottom: 15px;
+}
+
+.sidebar h3 {
+  font-size: 24px;
+  margin: 0 0 20px 0;
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar a {
+  color: #1d70b8;
+  text-decoration: underline;
+  display: block;
+  margin-bottom: 15px;
+  font-size: 16px;
 }
 
 /* Status Message (!) */
@@ -44,8 +132,8 @@ body {
 }
 
 .status-icon {
-  background-color: #000 !important;
-  color: #fff !important;
+  background-color: #000;
+  color: #fff;
   width: 35px;
   height: 35px;
   border-radius: 50%;
@@ -53,65 +141,11 @@ body {
   align-items: center;
   justify-content: center;
   font-size: 24px;
-  font-weight: bold;
-}
-
-.status-message p {
-  font-size: 19px;
-  font-weight: bold;
-  margin: 0;
-}
-
-/* Sidebar with Blue Line */
-.sidebar-border {
-  border-top: 4px solid #005ea5 !important;
-  width: 100%;
-  margin-bottom: 15px;
-}
-
-.sidebar h3 { font-size: 24px; }
-.sidebar ul { list-style: none; padding: 0; }
-.sidebar a { color: #1d70b8; text-decoration: underline; }
-
-/* Footer */
-.footer-nav {
-  margin-top: 60px;
-  padding-top: 20px;
-  border-top: 1px solid #bfc1c3;
-  display: flex;
-  gap: 20px;
+  font-weight: 700;
+  flex-shrink: 0;
 }
 
 @media (max-width: 768px) {
   .main-layout { grid-template-columns: 1fr; }
-}
-/* Results Grid - This makes it 2 columns like the target image */
-.results-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr; /* Creates two equal columns */
-  gap: 15px;
-  margin-top: 20px;
-}
-
-/* Card Styling */
-.card {
-  padding: 20px;
-  min-height: 220px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  /* Ensuring text doesn't have default browser margins */
-}
-
-.card h2 {
-  font-family: Arial, sans-serif;
-  font-weight: bold;
-  line-height: 1.2;
-}
-
-/* Responsive fix: stack on mobile */
-@media (max-width: 600px) {
-  .results-grid {
-    grid-template-columns: 1fr;
-  }
+  .results-grid { grid-template-columns: 1fr; }
 }
