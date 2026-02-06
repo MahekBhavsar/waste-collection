@@ -1,86 +1,72 @@
 import React, { useState } from "react";
+import { getAddresses, getCollections } from "./api";
+import PostcodeForm from "./components/PostcodeForm";
+import AddressSelect from "./components/AddressSelect";
+import ResultCards from "./components/ResultCards";
 import "./styles.css";
-import PostcodeForm from "./PostcodeForm";
-import AddressSelect from "./AddressSelect";
-import ResultCards from "./ResultCards";
-import { getAddresses, getCollections } from "./apiService";
 
 function App() {
   const [addresses, setAddresses] = useState([]);
   const [collections, setCollections] = useState([]);
-  const [hasSearched, setHasSearched] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
 
-  const handleSearch = async (postcode) => {
-    setLoading(true);
+  // Triggered by PostcodeForm to find properties
+  const onSearch = async (postcode) => {
+    setError(false);
     const data = await getAddresses(postcode);
-    setAddresses(data.addressList || []); // Adjust based on actual API key
+    setAddresses(data.ADDRESS || []);
     setCollections([]);
-    setHasSearched(false);
-    setLoading(false);
   };
 
-  const handleSelect = async (uprn) => {
+  // Triggered by AddressSelect to get bin dates using UPRN
+  const onSelectAddress = async (uprn) => {
+    if (!uprn) return;
     const data = await getCollections(uprn);
     setCollections(data);
-    setHasSearched(true);
+    setError(data.length === 0);
   };
 
-  const handleClear = () => {
+  const resetAll = () => {
     setAddresses([]);
     setCollections([]);
-    setHasSearched(false);
+    setError(false);
   };
 
   return (
     <div className="container">
-      <main className="main-content">
-        <h1>Find out your waste collection day</h1>
-        <p className="intro-text">Check when your waste will be collected.</p>
-
-        <div className="search-section">
-          <PostcodeForm onSearch={handleSearch} />
+      <h1>Find out your waste collection day</h1>
+      
+      <div className="main-layout">
+        <div className="main-content">
+          <p>Check when your waste will be collected.</p>
           
-          {addresses.length > 0 && (
-            <AddressSelect 
-              addresses={addresses} 
-              onSelect={handleSelect} 
-              onClear={handleClear} 
-            />
+          <div className="search-box">
+            <PostcodeForm onSearch={onSearch} />
+            
+            {addresses.length > 0 && (
+              <AddressSelect 
+                addresses={addresses} 
+                onSelect={onSelectAddress} 
+                onClear={resetAll} 
+              />
+            )}
+          </div>
+
+          {error && (
+            <div className="error-banner">
+              <strong>!</strong> There are no upcoming collections scheduled for the above address.
+            </div>
           )}
+
+          <ResultCards collections={collections} />
         </div>
 
-        {/* The "No collections" message from your first image */}
-        {hasSearched && collections.length === 0 && (
-          <div className="status-message">
-            <span className="icon">!</span>
-            <p>There are no upcoming collections scheduled for the above address.</p>
-          </div>
-        )}
-
-        {collections.length > 0 && (
-          <>
-            <h3 className="results-heading">Your next collections</h3>
-            <ResultCards collections={collections} />
-          </>
-        )}
-      </main>
-
-      <aside className="sidebar">
-        <h3>Related content</h3>
-        <ul>
-          <li><a href="#">Add to your calendar</a></li>
-          <li><a href="#">View and download printable schedule</a></li>
-        </ul>
-      </aside>
-
-      <footer className="footer-nav">
-        <a href="#help">Help</a>
-        <a href="#cookies">Cookies</a>
-        <a href="#contact">Contact</a>
-        <a href="#accessibility">Accessibility Statement</a>
-        <a href="#privacy">Privacy Policy</a>
-      </footer>
+        <aside className="sidebar">
+          <h3>Related content</h3>
+          <a href="#!">Add to your calendar</a>
+          <a href="#!">View and download printable schedule</a>
+        </aside>
+      </div>
     </div>
   );
 }
