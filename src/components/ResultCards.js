@@ -1,39 +1,39 @@
 import React from "react";
 
 export default function ResultCards({ collections }) {
-  // 1. Error/Empty state handling
+  // 1. Handle the "No Collections" state shown in your screenshot
   if (!collections || collections.length === 0) {
     return (
       <div style={{ marginTop: '20px', display: 'flex', alignItems: 'center', gap: '10px' }}>
-        <strong>⚠️ There are no upcoming collections scheduled for the above address.</strong>
+        <span style={{ fontSize: '20px' }}>⚠️</span>
+        <strong>There are no upcoming collections scheduled for the above address.</strong>
       </div>
     );
   }
 
-  // 2. Dynamic Color Mapping (Not hardcoded in the loop)
-  const colors = {
-    garden: "#4ead00",
-    recycling: "#f4821f",
-    domestic: "#000000",
-    refuse: "#000000",
-    sharps: "#eeee00",
-    medical: "#eeee00"
+  // 2. Definitive Color Map based on your requirements
+  const getColor = (type) => {
+    const t = type?.toLowerCase() || "";
+    if (t.includes("garden")) return "#4ead00";   // Bright Green
+    if (t.includes("recycling")) return "#f4821f"; // Orange
+    if (t.includes("domestic") || t.includes("refuse") || t.includes("household")) return "#000000"; // Black
+    if (t.includes("sharps") || t.includes("medical")) return "#eeee00"; // Bright Yellow
+    return "#6f777b"; // Default Gray
   };
 
   return (
     <div className="results-grid">
       {collections.map((item, i) => {
         const title = item.binType || item.serviceName || "Waste";
-        const typeKey = Object.keys(colors).find(key => title.toLowerCase().includes(key));
-        const bgColor = colors[typeKey] || "#6f777b"; // Fallback to gray
+        const bgColor = getColor(title);
 
         return (
           <div 
             key={i} 
             className="card" 
             style={{ 
-              backgroundColor: bgColor, 
-              color: bgColor === "#eeee00" ? "#000" : "#fff" 
+              backgroundColor: bgColor,
+              color: bgColor === "#eeee00" ? "#000" : "#fff" // Black text only for yellow bin
             }}
           >
             <div className="top-section">
