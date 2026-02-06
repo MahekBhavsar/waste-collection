@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { getAddresses, getCollections } from "./api";
-import PostcodeForm from "./components/PostcodeForm";
+import PostcodeForm from './components/PostcodeForm.js';
 import AddressSelect from "./components/AddressSelect";
 import ResultCards from "./components/ResultCards";
 import "./styles.css";
