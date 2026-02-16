@@ -8,7 +8,6 @@ import "./styles.css";
 function App() {
   const [addresses, setAddresses] = useState([]);
   const [collections, setCollections] = useState([]);
-  const [selectedUPRN, setSelectedUPRN] = useState("");
 
   const [postcodeError, setPostcodeError] = useState("");
   const [collectionError, setCollectionError] = useState(false);
@@ -23,7 +22,6 @@ function App() {
     setCollectionError(false);
     setAddresses([]);
     setCollections([]);
-    setSelectedUPRN("");
 
     try {
       const data = await getAddresses(postcode);
@@ -60,18 +58,16 @@ function App() {
     }
   };
 
-  // CLEAR ONLY COLLECTIONS
+  // CLEAR COLLECTIONS ONLY
   const clearCollections = () => {
     setCollections([]);
     setCollectionError(false);
-    setSelectedUPRN("");
   };
 
-  // RESET ALL
+  // RESET EVERYTHING
   const resetAll = () => {
     setAddresses([]);
     setCollections([]);
-    setSelectedUPRN("");
     setPostcodeError("");
     setCollectionError(false);
   };
@@ -90,16 +86,7 @@ function App() {
             {addresses.length > 0 && (
               <AddressSelect
                 addresses={addresses}
-                value={selectedUPRN}
-                onChange={(uprn) => {
-                  setSelectedUPRN(uprn);
-
-                  if (!uprn) {
-                    clearCollections();
-                  } else {
-                    onSelectAddress(uprn);
-                  }
-                }}
+                onSelect={onSelectAddress}
                 onClearAll={resetAll}
                 onClearCollections={clearCollections}
               />
@@ -121,7 +108,6 @@ function App() {
               <ResultCards collections={collections} />
             </div>
           )}
-
         </main>
 
         <aside className="sidebar">
