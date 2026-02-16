@@ -1,83 +1,36 @@
-import React, { useState, useMemo } from "react";
+// components/AddressSelect.jsx
+import React from "react";
+import Select from "react-select";
 
 export default function AddressSelect({
-  addresses = [],
-  onSelect,
+  addresses,
+  value = null, // use null or object for react-select
+  onChange,
   onClearAll,
   onClearCollections,
 }) {
-  const [search, setSearch] = useState("");
-
-  // Filter addresses
-  const filteredAddresses = useMemo(() => {
-    return addresses.filter((a) =>
-      (a.FULL_ADDRESS || a.address || "")
-        .toLowerCase()
-        .includes(search.toLowerCase())
-    );
-  }, [addresses, search]);
-
-  const handleChange = (e) => {
-    const value = e.target.value;
-
-    // Placeholder selected → clear collections only
-    if (value === "") {
-      onClearCollections();
-    } else {
-      onSelect(value);
-    }
-  };
+  const options = addresses.map((a) => ({
+    value: a.UPRN,
+    label: a.FULL_ADDRESS,
+  }));
 
   return (
     <div className="address-select">
-      <label htmlFor="address-search">Search address</label>
-
-      {/* SEARCH INPUT */}
-      <input
-        id="address-search"
-        type="text"
-        className="gov-input"
-        placeholder="Type to filter address..."
-        value={search}
-        onChange={(e) => setSearch(e.target.value)}
+      <Select
+        value={options.find((o) => o.value === value) || null}
+        onChange={(selected) => onChange(selected ? selected.value : "")}
+        options={options}
+        isClearable
+        placeholder="Choose address..."
       />
 
-      {/* DROPDOWN */}
-      <select
-        className="gov-select"
-        onChange={handleChange}
-        defaultValue=""
-      >
-        <option value="">Choose address...</option>
-
-        {filteredAddresses.map((a, i) => (
-          <option key={i} value={a.UPRN || a.uprn}>
-            {a.FULL_ADDRESS || a.address}
-          </option>
-        ))}
-      </select>
-
-      {/* ACTION BUTTONS */}
-      <div className="address-buttons">
-
-        {/* CLEAR COLLECTIONS */}
-        <button
-          type="button"
-          className="btn-secondary"
-          onClick={onClearCollections}
-        >
+      <div className="address-actions" style={{ marginTop: 8 }}>
+        <button type="button" onClick={onClearCollections}>
           Clear collections
         </button>
-
-        {/* RESET EVERYTHING */}
-        <button
-          type="button"
-          className="btn-clear"
-          onClick={onClearAll}
-        >
-          Reset search
+        <button type="button" onClick={onClearAll} style={{ marginLeft: 8 }}>
+          Reset all
         </button>
-
       </div>
     </div>
   );
