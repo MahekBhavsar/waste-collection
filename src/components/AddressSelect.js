@@ -1,4 +1,5 @@
-import React, { useState, useMemo } from "react";
+import React from "react";
+import Select from "react-select";
 
 export default function AddressSelect({
   addresses = [],
@@ -6,60 +7,52 @@ export default function AddressSelect({
   onClearAll,
   onClearCollections,
 }) {
-  const [search, setSearch] = useState("");
 
-  // Filter addresses based on search text
-  const filteredAddresses = useMemo(() => {
-    return addresses.filter((a) =>
-      (a.FULL_ADDRESS || a.address || "")
-        .toLowerCase()
-        .includes(search.toLowerCase())
-    );
-  }, [addresses, search]);
+  // convert addresses to react-select format
+  const options = addresses.map((a) => ({
+    value: a.UPRN || a.uprn,
+    label: a.FULL_ADDRESS || a.address,
+  }));
 
-  const handleChange = (e) => {
-    const value = e.target.value;
-
-    if (value === "") {
-      onClearCollections();   // placeholder selected
+  const handleChange = (selected) => {
+    if (!selected) {
+      onClearCollections();   // user cleared selection
     } else {
-      onSelect(value);        // address selected
+      onSelect(selected.value);
     }
   };
 
   return (
     <div className="address-select">
-      <label htmlFor="address-search">Search address</label>
+      <label>Select an address</label>
 
-      {/* SEARCH INPUT */}
-      <input
-        id="address-search"
-        type="text"
-        className="gov-input"
-        placeholder="Type to filter address..."
-        value={search}
-        onChange={(e) => setSearch(e.target.value)}
+      {/* SEARCHABLE DROPDOWN */}
+      <Select
+        options={options}
+        placeholder="Choose address..."
+        isClearable
+        isSearchable
+        className="gov-select"
+        onChange={handleChange}
+        noOptionsMessage={() => "No address found"}
       />
-
-      {/* DROPDOWN */}
-      <select className="gov-select" onChange={handleChange} defaultValue="">
-        <option value="">Choose address...</option>
-
-        {filteredAddresses.map((a, i) => (
-          <option key={i} value={a.UPRN || a.uprn}>
-            {a.FULL_ADDRESS || a.address}
-          </option>
-        ))}
-      </select>
 
       {/* BUTTONS */}
       <div className="address-buttons">
-        <button type="button" className="btn-secondary" onClick={onClearCollections}>
+        <button
+          type="button"
+          className="btn-secondary"
+          onClick={onClearCollections}
+        >
           Clear collections
         </button>
 
-        <button type="button" className="btn-clear" onClick={onClearAll}>
-          Reset search
+        <button
+          type="button"
+          className="btn-clear"
+          onClick={onClearAll}
+        >
+          Reset address
         </button>
       </div>
     </div>
