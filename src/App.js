@@ -8,16 +8,22 @@ import "./styles.css";
 function App() {
   const [addresses, setAddresses] = useState([]);
   const [collections, setCollections] = useState([]);
+  const [selectedUPRN, setSelectedUPRN] = useState("");
 
   const [postcodeError, setPostcodeError] = useState("");
   const [collectionError, setCollectionError] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   // SEARCH POSTCODE
   const onSearch = async (postcode) => {
+    if (!postcode) return;
+
+    setLoading(true);
     setPostcodeError("");
     setCollectionError(false);
-    setCollections([]);
     setAddresses([]);
+    setCollections([]);
+    setSelectedUPRN("");
 
     try {
       const data = await getAddresses(postcode);
@@ -30,13 +36,16 @@ function App() {
       }
     } catch {
       setPostcodeError("Unable to find postcode. Please try again.");
+    } finally {
+      setLoading(false);
     }
   };
 
-  // SELECT ADDRESS → GET COLLECTIONS
+  // SELECT ADDRESS
   const onSelectAddress = async (uprn) => {
     if (!uprn) return;
 
+    setLoading(true);
     setCollectionError(false);
     setCollections([]);
 
@@ -46,6 +55,8 @@ function App() {
       setCollectionError(!data || data.length === 0);
     } catch {
       setCollectionError(true);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -53,12 +64,14 @@ function App() {
   const clearCollections = () => {
     setCollections([]);
     setCollectionError(false);
+    setSelectedUPRN("");
   };
 
-  // RESET EVERYTHING
+  // RESET ALL
   const resetAll = () => {
     setAddresses([]);
     setCollections([]);
+    setSelectedUPRN("");
     setPostcodeError("");
     setCollectionError(false);
   };
@@ -77,14 +90,25 @@ function App() {
             {addresses.length > 0 && (
               <AddressSelect
                 addresses={addresses}
-                onSelect={onSelectAddress}
+                value={selectedUPRN}
+                onChange={(uprn) => {
+                  setSelectedUPRN(uprn);
+
+                  if (!uprn) {
+                    clearCollections();
+                  } else {
+                    onSelectAddress(uprn);
+                  }
+                }}
                 onClearAll={resetAll}
                 onClearCollections={clearCollections}
               />
             )}
           </div>
 
-          {collectionError && (
+          {loading && <div className="loading">Loading...</div>}
+
+          {collectionError && !loading && (
             <div className="status-message">
               <div className="status-icon">!</div>
               <p>There are no upcoming collections scheduled for this address.</p>
