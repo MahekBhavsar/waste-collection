@@ -8,7 +8,7 @@ export default function AddressSelect({
 }) {
   const [search, setSearch] = useState("");
 
-  // filter addresses based on search text
+  // Filter addresses
   const filteredAddresses = useMemo(() => {
     return addresses.filter((a) =>
       (a.FULL_ADDRESS || a.address || "")
@@ -20,6 +20,7 @@ export default function AddressSelect({
   const handleChange = (e) => {
     const value = e.target.value;
 
+    // Placeholder selected → clear collections only
     if (value === "") {
       onClearCollections();
     } else {
@@ -56,14 +57,28 @@ export default function AddressSelect({
         ))}
       </select>
 
-      {/* RESET BUTTON */}
-      <button
-        type="button"
-        className="btn-clear"
-        onClick={onClearAll}
-      >
-        Clear address and start again
-      </button>
+      {/* ACTION BUTTONS */}
+      <div className="address-buttons">
+
+        {/* CLEAR COLLECTIONS */}
+        <button
+          type="button"
+          className="btn-secondary"
+          onClick={onClearCollections}
+        >
+          Clear collections
+        </button>
+
+        {/* RESET EVERYTHING */}
+        <button
+          type="button"
+          className="btn-clear"
+          onClick={onClearAll}
+        >
+          Reset search
+        </button>
+
+      </div>
     </div>
   );
 }
