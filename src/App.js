@@ -9,35 +9,26 @@ function App() {
   const [addresses, setAddresses] = useState([]);
   const [collections, setCollections] = useState([]);
 
-  // address selection error (no collections)
-  const [error, setError] = useState(false);
-
-  // postcode error (no address found)
   const [postcodeError, setPostcodeError] = useState("");
-
-  const [hasSelected, setHasSelected] = useState(false);
+  const [collectionError, setCollectionError] = useState(false);
 
   // SEARCH POSTCODE
   const onSearch = async (postcode) => {
-    setError(false);
-    setHasSelected(false);
     setPostcodeError("");
-    setAddresses([]);
+    setCollectionError(false);
     setCollections([]);
+    setAddresses([]);
 
     try {
       const data = await getAddresses(postcode);
+      const result = data?.ADDRESS || [];
 
-      // depending on API structure
-      const result = data?.ADDRESS || data?.addressList || [];
-
-      if (!result || result.length === 0) {
+      if (result.length === 0) {
         setPostcodeError("No addresses found for this postcode");
       } else {
         setAddresses(result);
       }
-
-    } catch (err) {
+    } catch {
       setPostcodeError("Unable to find postcode. Please try again.");
     }
   };
@@ -46,28 +37,30 @@ function App() {
   const onSelectAddress = async (uprn) => {
     if (!uprn) return;
 
+    setCollectionError(false);
+    setCollections([]);
+
     try {
       const data = await getCollections(uprn);
-      const results = data || [];
-
-      setCollections(results);
-      setHasSelected(true);
-      setError(results.length === 0);
-
-    } catch (err) {
-      setCollections([]);
-      setHasSelected(true);
-      setError(true);
+      setCollections(data || []);
+      setCollectionError(!data || data.length === 0);
+    } catch {
+      setCollectionError(true);
     }
+  };
+
+  // CLEAR ONLY COLLECTIONS
+  const clearCollections = () => {
+    setCollections([]);
+    setCollectionError(false);
   };
 
   // RESET EVERYTHING
   const resetAll = () => {
     setAddresses([]);
     setCollections([]);
-    setError(false);
     setPostcodeError("");
-    setHasSelected(false);
+    setCollectionError(false);
   };
 
   return (
@@ -85,20 +78,19 @@ function App() {
               <AddressSelect
                 addresses={addresses}
                 onSelect={onSelectAddress}
-                onClear={resetAll}
+                onClearAll={resetAll}
+                onClearCollections={clearCollections}
               />
             )}
           </div>
 
-          {/* COLLECTION ERROR */}
-          {error && hasSelected && (
+          {collectionError && (
             <div className="status-message">
               <div className="status-icon">!</div>
-              <p>There are no upcoming collections scheduled for the above address.</p>
+              <p>There are no upcoming collections scheduled for this address.</p>
             </div>
           )}
 
-          {/* RESULTS */}
           {collections.length > 0 && (
             <div className="results-container">
               <h3 className="results-heading">Your next collections</h3>

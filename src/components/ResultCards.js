@@ -28,3 +28,48 @@ export default function ResultCards({ collections }) {
     </div>
   );
 }
+
+
+// SHORT VERSION :
+/*
+export default function ResultCards({ collections }) {
+
+  // color dictionary instead of many if statements
+  const colorMap = {
+    garden: "#4ead00",
+    recycling: "#f4821f",
+    domestic: "#000000",
+    sharps: "#eeee00"
+  };
+
+  const getColor = (type = "") => {
+    const key = type.toLowerCase();
+    return colorMap[key] || "#6f777b"; // default grey
+  };
+
+  return (
+    <div className="results-grid">
+      {collections.map((item, i) => {
+        const bg = getColor(item.binType);
+        const textColor = bg === "#eeee00" ? "#000" : "#fff";
+
+        return (
+          <div key={i} className="card" style={{ backgroundColor: bg, color: textColor }}>
+            
+            <div>
+              <p className="small-text">{item.binType} collection</p>
+              <h2 className="big-text">{item.collectionDay}</h2>
+            </div>
+
+            <div>
+              <p className="small-text">followed by {item.followingDay}</p>
+              <p className="tiny-text">{item.binType} collection</p>
+            </div>
+
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+*/
