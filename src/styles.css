@@ -1,9 +1,8 @@
-/* Global Box Sizing */
+/* ================= GLOBAL ================= */
 * {
   box-sizing: border-box;
 }
 
-/* Body Styling */
 body {
   margin: 0;
   font-family: "GDS Transport", Arial, sans-serif;
@@ -12,36 +11,34 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* Container */
 .container {
   max-width: 1000px;
   margin: 0 auto;
   padding: 40px 20px;
 }
 
-/* Headings */
+/* ================= HEADINGS ================= */
 h1 {
   font-size: 48px;
   font-weight: 700;
-  margin: 0 0 30px 0;
+  margin-bottom: 30px;
   line-height: 1.1;
 }
 
-/* Main Layout */
+/* ================= LAYOUT ================= */
 .main-layout {
   display: grid;
   grid-template-columns: 2fr 1fr;
   gap: 60px;
 }
 
-/* Search Box */
+/* ================= SEARCH BOX ================= */
 .search-box {
   background-color: #f3f3f3;
   padding: 35px;
   margin-bottom: 30px;
 }
 
-/* Form Group */
 .form-group label {
   display: block;
   font-size: 24px;
@@ -52,13 +49,11 @@ h1 {
 .example-text {
   font-size: 19px;
   color: #505a5f;
-  margin: 0 0 15px 0;
+  margin-bottom: 15px;
 }
 
-/* Input Row */
 .input-row {
   display: flex;
-  gap: 0;
   margin-bottom: 20px;
 }
 
@@ -78,7 +73,7 @@ h1 {
   cursor: pointer;
 }
 
-/* Results Grid */
+/* ================= RESULTS ================= */
 .results-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -100,26 +95,20 @@ h1 {
   margin: 10px 0;
 }
 
-/* Sidebar */
-.sidebar {
-  padding-top: 0;
-}
-
+/* ================= SIDEBAR ================= */
 .sidebar-border {
   border-top: 4px solid #005ea5;
-  width: 100%;
   margin-bottom: 15px;
 }
 
 .sidebar h3 {
   font-size: 24px;
-  margin: 0 0 20px 0;
+  margin-bottom: 20px;
 }
 
 .sidebar ul {
   list-style: none;
   padding: 0;
-  margin: 0;
 }
 
 .sidebar a {
@@ -130,7 +119,7 @@ h1 {
   font-size: 16px;
 }
 
-/* Status Message */
+/* ================= STATUS ================= */
 .status-message {
   display: flex;
   align-items: center;
@@ -149,32 +138,71 @@ h1 {
   justify-content: center;
   font-size: 24px;
   font-weight: 700;
-  flex-shrink: 0;
 }
 
-/* Address Select */
+/* ================= ADDRESS SELECT ================= */
 .address-select {
-  margin-bottom: 20px;
+  max-width: 600px;
+  margin-top: 20px;
 }
 
-.gov-select {
+/* react-select control */
+.gov-select__control {
+  border: 2px solid #0b0c0c !important;
+  min-height: 42px !important;
   font-size: 19px;
-  padding: 8px;
-  width: 100%;
-  max-width: 400px;
-  border: 2px solid #0b0c0c;
-  margin-bottom: 10px;
 }
 
-.btn-clear {
-  font-size: 16px;
-  padding: 8px 12px;
-  background-color: #f3f3f3;
+.gov-select__control--is-focused {
+  box-shadow: 0 0 0 3px #ffdd00 !important;
+  border-color: #0b0c0c !important;
+}
+
+/* dropdown menu */
+.gov-select__menu {
+  font-size: 19px;
+}
+
+.gov-select__option--is-focused {
+  background: #e5f2ff !important;
+}
+
+.gov-select__option--is-selected {
+  background: #1d70b8 !important;
+  color: white !important;
+}
+
+/* buttons */
+.address-buttons {
+  margin-top: 10px;
+  display: flex;
+  gap: 10px;
+}
+
+.btn-secondary {
+  background: #f3f2f1;
   border: 1px solid #0b0c0c;
+  padding: 8px 14px;
   cursor: pointer;
 }
 
-/* Responsive */
+.btn-secondary:hover {
+  background: #dbdad9;
+}
+
+.btn-clear {
+  background: #1d70b8;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  cursor: pointer;
+}
+
+.btn-clear:hover {
+  background: #003078;
+}
+
+/* ================= RESPONSIVE ================= */
 @media (max-width: 768px) {
   .main-layout {
     grid-template-columns: 1fr;
